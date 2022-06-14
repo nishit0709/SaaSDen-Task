@@ -26,7 +26,6 @@ router.post("/login", async(req, res) =>{
 })
 
 router.post("/signup", (req, res) =>{
-    console.log("signup request received")
     bcrypt.hash(req.body.passWord, 10, async (err, hash) =>{
         if(err)
             console.log(err)

@@ -41,9 +41,6 @@ function isUserLogged(req, res, next){
 }
 
 
-
-
-
 const login = require('./routes/login')
 const home = require("./routes/home")
 

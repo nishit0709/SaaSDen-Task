@@ -1,13 +1,15 @@
 const express = require('express')
 const router= express.Router()
 const userModel = require('../models/user.js')
+const cSort = require('../JS/customSort')
 
 
 router.get("/", async(req, res) =>{
-    const user = await userModel.findOne({_id: req.session.ID})
+    let user = await userModel.findOne({_id: req.session.ID})
+    const snotes = (user.notes).sort(cSort.sortByProperty("tags"))
     data = {
         userName : user.userName,
-        notes : user.notes,
+        notes :  snotes
     }  
     res.render('home', {data:data})
 })
@@ -41,11 +43,10 @@ router.get("/del", (req, res) =>{
 })
 
 router.post("/add", (req, res) =>{
-    console.log("Note post request received")
     const userID = req.session.ID
     const note = {
         heading : req.body.heading,
-        tags : (req.body.tags),
+        tags : ((req.body.tags).split(' ')).sort(),
         body : req.body.body
     }
     const filter = {_id:userID}
@@ -68,7 +69,6 @@ router.post("/edit", (req, res) =>{
         tags : req.body.tags,
         body : req.body.body
     }
-    console.log(newNote)
     const filter =  {_id: userID, "notes._id" : docID}
     const update =  {$set: {"notes.$" : newNote}}
     userModel.findOneAndUpdate(filter, update, (err, result) => {
