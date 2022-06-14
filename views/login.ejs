@@ -4,9 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>login</title>
+    <link rel="stylesheet" href="/login/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-    
+    <div class="login-page">
+        <div class="form">
+            <form class="register-form" method="post" action="/signup">
+                <input type="text" placeholder="username"/ name = "userName">
+                <input type="password" placeholder="password"/ name= "passWord">
+                <input type="text" placeholder="email address" name="email" />
+                <button id="register" type="submit" >create</button>
+                <p class="message">Already registered? <a href="#">Sign In</a></p>
+            </form>
+            <form class="login-form" method="post" action="/login">
+                <input type="text" placeholder="username" name="userName" />
+                <input type="password" placeholder="password" name="passWord" />
+                <button id="login" type="submit" >login</button>
+                <p class="message">Not registered? <a href="#">Create an account</a></p>
+            </form>
+            </div>
+    </div>
+
+    <script>
+        $('.message a').click(function(){
+            $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+        });
+
+        document.getElementById('register').onclick = function(){
+            
+        }
+
+    </script>
+
 </body>
 </html>
