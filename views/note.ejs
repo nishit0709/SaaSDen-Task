@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/note/style.css">
+    <title>note</title>
+</head>
+<body>
+    <div class="container">  
+      <form id="contact" action="<%= data.link %>" method="post">
+        <h3>Create Note</h3>
+          <fieldset>
+            <input placeholder="Title" type="text" tabindex="1" required autofocus value="<%= data.note.heading %>" name = "heading">
+          </fieldset>
+          
+          <fieldset>
+            <input placeholder="Tags(space separated)" type="text" tabindex="2" required value="<%= (data.note.tags).join(' ') %>" name ="tags">
+          </fieldset>
+          
+          <fieldset>
+            <textarea placeholder="Type your note here...." tabindex="5" required id="myTxtArea" name="body"></textarea>
+          </fieldset>
+          
+          <fieldset>
+            <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+          </fieldset>
+          
+          <p class="copyright">Designed by <a href="https://colorlib.com" target="_blank" title="Colorlib">Colorlib</a></p>
+      </form>
+    </div>
+    <script>
+      const bodyData = 
+      document.getElementById('myTxtArea').defaultValue = `<%= data.note.body %>`
+    </script>
+</body>
+</html>
