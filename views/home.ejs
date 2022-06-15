@@ -22,6 +22,9 @@
                 <button id="button-addon8" type="submit" class="btn btn-danger" onclick="search()" > <i class="fa fa-search"> </i> </button>  
             </div> 
             <input type="search" placeholder="Search here..." id="search" aria-describedby="button-addon5" class="form-control">  
+            <div class="input-group-append">  
+                <button type="button" class="btn btn-primary" id="tg" onclick="toggleSearch()">By Heading</button>  
+            </div> 
         </div>
        
         <ul class="list-group w-50 mx-auto" id = "list"> 
@@ -29,7 +32,7 @@
                 <% (data.notes).forEach(note => { %>
                     <li class="list-group-item" style="display: flex;">
                         <p class="p-0 m-0 flex-grow-1 disabled" style="font-size: 15px; color:black; font-weight: 600;" id="heading"><%=note.heading%></p> 
-                        <p class="p-0 m-0 flex-grow-1 disabled" style="color: rgb(34, 34, 34);"><b>Tags: </b> <%= (note.tags).join(' , ')%></p>
+                        <p class="p-0 m-0 flex-grow-1 disabled" style="color: rgb(34, 34, 34);"><b>Tags: </b> <%= (note.tags).join(' ')%></p>
                         <a href="/home/note?noteID=<%=note._id%>" class="btn-success" style="width: 90px; text-align: center; font-weight: 500;">EDIT / VIEW</a>  
                         <a href="/home/del?noteID=<%=note._id%>" class="btn-danger" style="width: 90px; text-align: center; font-weight: 500;">DELETE</a>
                     </li>
@@ -50,22 +53,36 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
         var s = ""
+        var t = 0;
         let list = document.getElementById('list')
         let items = list.getElementsByTagName('li')
         var re = /^\w?$/
         
-            
         document.getElementById("search").addEventListener("keyup", (e) =>{
             if(e.key == "Enter")
                 search()
         })
 
 
+        function toggleSearch(){
+            let ele = document.getElementById('tg')
+            if(ele.innerText == "By Heading"){
+                ele.innerText = "By Tag"
+                t = 1;
+            }else{
+                ele.innerText = "By Heading"
+                t = 0;
+            }
+        }
+
         function search(){
             var s = document.getElementById('search').value
             for(var i=0; i<items.length; i++){
                 let head = ((items[i].getElementsByTagName('p')[0]).innerHTML).toLowerCase()
-                if(!head.startsWith(s))
+                let tag = (((items[i].getElementsByTagName('p')[1]).innerHTML).slice(14)).split(' ')
+                if(t == 0 && !head.startsWith(s))
+                    items[i].style.display = 'none'
+                else if(t == 1 && !tag.includes(s))
                     items[i].style.display = 'none'
                 else 
                     items[i].style.display = 'flex'
